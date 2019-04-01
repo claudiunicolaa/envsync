@@ -7,6 +7,9 @@ Arguments:
  - optional: the environment file name (default: `.env`)
  
  @todo:
- - write tests
- - write documentation
- - check if working on linux, mac, windows
+ - [x] write tests 
+ - [ ] write documentation
+ - [ ] check if working on linux, ~~mac~~, windows
+ - [ ] add a flag that let tool to write into environment file (https://github.com/joho/godotenv#writing-env-files)
+ - [ ] check if it is ok to integrate with `godotenv` lib
+ - [ ] benchmarking (optional)
