@@ -1,4 +1,4 @@
-package envSync
+package envsync
 
 import (
 	"errors"
@@ -37,7 +37,7 @@ func EnvSync(args []string) (bool, error) {
 }
 
 func canBeRun(args []string) bool {
-	return len(args) > 1
+	return len(args) > 0
 }
 
 func getMapKeysSorted(m map[string]string) []string {
@@ -53,10 +53,10 @@ func getMapKeysSorted(m map[string]string) []string {
 func getEnvFileNames(args []string) (string, string) {
 	// default name of environment file
 	var envFileName = ".env"
-	envFileNameExample := args[1];
+	envFileNameExample := args[0];
 	// if second cli argument specified
-	if len(args) > 2 {
-		envFileName = args[2];
+	if len(args) > 1 {
+		envFileName = args[1];
 	}
 
 	return envFileName, envFileNameExample

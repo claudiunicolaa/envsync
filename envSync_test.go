@@ -1,4 +1,4 @@
-package envSync
+package envsync
 
 import (
 	"io/ioutil"
@@ -17,7 +17,7 @@ func TestCanBeRunWithEmptySlice(t *testing.T) {
 
 func TestCanBeRunWithOneElemSlice(t *testing.T) {
 	r := canBeRun([]string{"one"})
-	if r {
+	if !r {
 		t.Error("canBeRun with one element in slice must return false")
 	}
 }
@@ -30,19 +30,19 @@ func TestCanBeRunWithTwoElemSlice(t *testing.T) {
 }
 
 func TestGetEnvFileNamesWithOneArgument(t *testing.T) {
-	args := []string{"cmd_name", ".env.example"}
+	args := []string{".env.example"}
 	s1, s2 := getEnvFileNames(args)
 
-	if s1 != ".env" || s2 != args[1] {
+	if s1 != ".env" || s2 != args[0] {
 		t.Error("getEnvFileName failed")
 	}
 }
 
 func TestGetEnvFileNamesWithTwoArguments(t *testing.T) {
-	args := []string{"cmd_name", ".env.example", ".env"}
+	args := []string{".env.example", ".env"}
 	s1, s2 := getEnvFileNames(args)
 
-	if s1 != args[2] || s2 != args[1] {
+	if s1 != args[1] || s2 != args[0] {
 		t.Error("getEnvFileName failed")
 	}
 }
@@ -116,7 +116,7 @@ func TestCallWithTwoNonExistingFilenames(t *testing.T) {
 
 	defer os.Remove(filename)
 
-	_, err = EnvSync([]string{"cmd_name", "random_file_name_789", "789_random_file_name"})
+	_, err = EnvSync([]string{"random_file_name_789", "789_random_file_name"})
 	if err != nil && err.Error() == "open 789_random_file_name: no such file or directory" {
 		return
 	}
@@ -140,7 +140,7 @@ func TestCallWithExampleFileExistingAndEnvFileDefault(t *testing.T) {
 	defer os.Remove(filename)
 	defer os.Remove(tmpfile.Name())
 
-	_, err = EnvSync([]string{"cmd_name", tmpfile.Name()})
+	_, err = EnvSync([]string{tmpfile.Name()})
 	if err != nil {
 		t.Error("Calling with example file existing must return nil")
 	}
