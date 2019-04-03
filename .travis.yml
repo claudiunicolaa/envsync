@@ -6,4 +6,4 @@ go:
 os:
   - linux
   - osx
-  - 
+  - windows
