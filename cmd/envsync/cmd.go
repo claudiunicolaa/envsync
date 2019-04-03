@@ -3,6 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/claudiunicolaa/envsync"
+	"log"
+	"os"
 )
 
 func main() {
@@ -11,7 +14,14 @@ func main() {
 	flag.Parse()
 
 	help := `
-	Check if environment example and environment file are synced.
+Check if environment example and environment file are synced.
+
+envsync [-h] path/to/environment/example/file [path/to/environment/file]
+
+Second argument is optional. Default=.env
+
+Usage example:
+envsync .env.example .env
 	`
 
 	args := flag.Args()
@@ -20,13 +30,14 @@ func main() {
 		return
 	}
 
-	//r, err := env()
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//
-	//if r {
-	//	log.Println("Files are synced")
-	//} else {
-	//	log.Println("File are out-of-sync")
+	r, err := envsync.EnvSync(os.Args[1:])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if r {
+		log.Println("environment files are synced")
+	} else {
+		log.Println("environment files are out-of-sync")
+	}
 }

@@ -5,6 +5,7 @@ import (
 	"github.com/joho/godotenv"
 	"reflect"
 	"sort"
+	"strings"
 )
 
 func EnvSync(args []string) (bool, error) {
@@ -16,12 +17,12 @@ func EnvSync(args []string) (bool, error) {
 
 	envMap, err := godotenv.Read(envFileName)
 	if err != nil {
-		return false, err
+		return false, errors.New(err.Error() + " for environment file (" + envFileName + ")")
 	}
 
 	envExampleMap, err := godotenv.Read(envFileNameExample)
 	if err != nil {
-		return false, err
+		return false, errors.New(err.Error() + " for example environment file (" + envFileNameExample + ")")
 	}
 
 	envKeys := getMapKeysSorted(envMap)
@@ -30,10 +31,25 @@ func EnvSync(args []string) (bool, error) {
 	eq := reflect.DeepEqual(envKeys, envExampleKeys)
 
 	if !eq {
-		return false, errors.New("environment files are not synced")
+		diff := getKeysDiff(envExampleKeys, envKeys)
+		return false, errors.New("environment files are not synced. Missing keys from " + envFileName + " are: " + strings.Join(diff, ", "))
 	}
 
 	return true, nil
+}
+
+func getKeysDiff(a, b []string) (diff []string) {
+	m := make(map[string]bool)
+	for _, item := range b {
+		m[item] = true
+	}
+
+	for _, item := range a {
+		if _, ok := m[item]; !ok {
+			diff = append(diff, item)
+		}
+	}
+	return
 }
 
 func canBeRun(args []string) bool {

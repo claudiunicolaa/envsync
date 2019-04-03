@@ -23,7 +23,7 @@ func TestCanBeRunWithOneElemSlice(t *testing.T) {
 }
 
 func TestCanBeRunWithTwoElemSlice(t *testing.T) {
-	r := canBeRun([]string{"one", "tow"})
+	r := canBeRun([]string{"one", "two"})
 	if !r {
 		t.Error("canBeRun with two elements in slice must return true")
 	}
@@ -73,6 +73,26 @@ func TestGetMapKeysSorted(t *testing.T) {
 	}
 }
 
+func TestGetKeysDiff(t *testing.T) {
+	a := []string{"one", "two", "three", "four", "five"}
+	b := []string{"two", "three", "five"}
+
+	diff := getKeysDiff(a, b)
+	eq := reflect.DeepEqual(diff, []string{"one", "four"})
+	if !eq {
+		t.Error("getKeysDiff must return true")
+	}
+
+	a = []string{"one", "two", "three", "four", "five"}
+	b = []string{"one", "two", "three", "four", "five"}
+
+	diff = getKeysDiff(a, b)
+	eq = reflect.DeepEqual(diff, []string{})
+	if eq {
+		t.Error("getKeysDiff must return false")
+	}
+}
+
 func TestCallWithoutArguments(t *testing.T) {
 	_, err := EnvSync([]string{})
 	if err != nil && err.Error() == "please provide the need it arguments" {
@@ -95,8 +115,8 @@ func TestCallWithOneNonExistingFilename(t *testing.T) {
 
 	defer os.Remove(filename)
 
-	_, err = EnvSync([]string{"cmd_name", "random_file_name_789"})
-	if err != nil && err.Error() == "open random_file_name_789: no such file or directory" {
+	_, err = EnvSync([]string{"random_file_name_789"})
+	if err != nil && err.Error() == "open random_file_name_789: no such file or directory for example environment file (random_file_name_789)" {
 		return
 	}
 
@@ -117,7 +137,7 @@ func TestCallWithTwoNonExistingFilenames(t *testing.T) {
 	defer os.Remove(filename)
 
 	_, err = EnvSync([]string{"random_file_name_789", "789_random_file_name"})
-	if err != nil && err.Error() == "open 789_random_file_name: no such file or directory" {
+	if err != nil && err.Error() == "open 789_random_file_name: no such file or directory for environment file (789_random_file_name)" {
 		return
 	}
 
@@ -159,7 +179,7 @@ func TestCallWithExampleAndEnvFileSynced(t *testing.T) {
 	defer os.Remove(tmpfileEnv.Name())
 	defer os.Remove(tmpfileEnvExample.Name())
 
-	r, err := EnvSync([]string{"cmd_name", tmpfileEnvExample.Name(), tmpfileEnv.Name()})
+	r, err := EnvSync([]string{tmpfileEnvExample.Name(), tmpfileEnv.Name()})
 	if r && err != nil {
 		t.Error("Calling with example and environment synced must return true, nil")
 	}
@@ -178,7 +198,7 @@ func TestCallWithEnvFileNotSynced(t *testing.T) {
 	defer os.Remove(tmpfileEnv.Name())
 	defer os.Remove(tmpfileEnvExample.Name())
 
-	r, err := EnvSync([]string{"cmd_name", tmpfileEnvExample.Name(), tmpfileEnv.Name()})
+	r, err := EnvSync([]string{tmpfileEnvExample.Name(), tmpfileEnv.Name()})
 	if r || err == nil {
 		t.Error("Calling with example and environment not synced must return false, err")
 	}
@@ -198,7 +218,7 @@ func TestCallWithEnvExampleFileNotSynced(t *testing.T) {
 	defer os.Remove(tmpfileEnv.Name())
 	defer os.Remove(tmpfileEnvExample.Name())
 
-	r, err := EnvSync([]string{"cmd_name", tmpfileEnvExample.Name(), tmpfileEnv.Name()})
+	r, err := EnvSync([]string{tmpfileEnvExample.Name(), tmpfileEnv.Name()})
 	if r || err == nil {
 		t.Error("Calling with example and environment not synced must return false, err")
 	}
