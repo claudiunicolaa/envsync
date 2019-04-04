@@ -116,11 +116,12 @@ func TestCallWithOneNonExistingFilename(t *testing.T) {
 	defer os.Remove(filename)
 
 	_, err = EnvSync([]string{"random_file_name_789"})
-	if err != nil && err.Error() == "open random_file_name_789: no such file or directory for example environment file (random_file_name_789)" {
+	// get just first 26 characters from error message because the rest differ linux&mac vs windows :|
+	if err != nil && err.Error()[0:26] == "open random_file_name_789:" {
 		return
 	}
 
-	t.Error("Calling with one non-existing filename must return 'open random_file_name_789: no such file or directory'")
+	t.Error("Calling with one non-existing filename must return first 26 characters 'open random_file_name_789:'")
 }
 
 func TestCallWithTwoNonExistingFilenames(t *testing.T) {
@@ -137,11 +138,12 @@ func TestCallWithTwoNonExistingFilenames(t *testing.T) {
 	defer os.Remove(filename)
 
 	_, err = EnvSync([]string{"random_file_name_789", "789_random_file_name"})
-	if err != nil && err.Error() == "open 789_random_file_name: no such file or directory for environment file (789_random_file_name)" {
+	// get just first 26 characters from error message because the rest differ linux&mac vs windows :|
+	if err != nil && err.Error()[0:26] == "open 789_random_file_name:" {
 		return
 	}
 
-	t.Error("Calling with one non-existing filename must return 'open 789_random_file_name: no such file or directory'")
+	t.Error("Calling with one non-existing filename must return first 26 characters 'open 789_random_file_name:'")
 }
 
 func TestCallWithExampleFileExistingAndEnvFileDefault(t *testing.T) {
