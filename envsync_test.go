@@ -56,7 +56,7 @@ func TestGetMapKeysSorted(t *testing.T) {
 			kShuffled[v] = k[i]
 		}
 		if reflect.DeepEqual(kShuffled, k) {
-			break;
+			break
 		}
 	}
 

@@ -69,10 +69,10 @@ func getMapKeysSorted(m map[string]string) []string {
 func getEnvFileNames(args []string) (string, string) {
 	// default name of environment file
 	var envFileName = ".env"
-	envFileNameExample := args[0];
+	envFileNameExample := args[0]
 	// if second cli argument specified
 	if len(args) > 1 {
-		envFileName = args[1];
+		envFileName = args[1]
 	}
 
 	return envFileName, envFileNameExample
