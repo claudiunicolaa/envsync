@@ -1,6 +1,9 @@
 # envsync
 
-A simple tool for check if environment file has the same keys with the example environment file, built on top of [gotdotenv](https://github.com/joho/godotenv) library.
+[![Build Status](https://travis-ci.org/claudiunicolaa/envsync.svg?branch=master)](https://travis-ci.org/claudiunicolaa/envsync)
+[![Go Report Card](https://goreportcard.com/badge/github.com/claudiunicolaa/envsync)](https://goreportcard.com/report/github.com/claudiunicolaa/envsync)
+
+A simple tool for check if environment file has the same keys with the example environment file. Built on top of [gotdotenv](https://github.com/joho/godotenv).
 
 Arguments:
  - **required**: the example environment file name 
@@ -9,8 +12,7 @@ Arguments:
  @todo:
  - [x] write tests 
  - [ ] write documentation
- - [ ] check if working on linux, ~~mac~~, windows
+ - [x] check if working on linux, ~~mac~~, windows
  - [ ] add a flag that let tool to write into environment file (https://github.com/joho/godotenv#writing-env-files)
  - [ ] check if it is ok to integrate with `godotenv` lib
- - [ ] benchmarking (optional)
  - [ ] add examples
