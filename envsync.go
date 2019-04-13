@@ -1,3 +1,5 @@
+// Package envsync provide a simple checking tool if environment and environment example files are synced.
+// The check take into consideration the keys, not the values.
 package envsync
 
 import (
@@ -8,6 +10,10 @@ import (
 	"strings"
 )
 
+// EnvSync get from args parameter the filenames of the environment and environment example.
+// The default environment names is .env and the function needs at least one entry 
+// into args array which will represent the name of environment example file. 
+// The second entry is optional and will represent the environment file name and overrides the default .env.
 func EnvSync(args []string) (bool, error) {
 	if !canBeRun(args) {
 		return false, errors.New("please provide the need it arguments")
