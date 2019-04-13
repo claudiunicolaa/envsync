@@ -11,8 +11,8 @@ import (
 )
 
 // EnvSync has two parameter:
-// 	- the environment filename
-//  - the environment example filename
+//    - the environment filename
+//    - the environment example filename
 func EnvSync(envFileName, envFileNameExample string) (bool, error) {
 	envMap, err := godotenv.Read(envFileName)
 	if err != nil {
