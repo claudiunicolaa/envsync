@@ -8,45 +8,6 @@ import (
 	"testing"
 )
 
-func TestCanBeRunWithEmptySlice(t *testing.T) {
-	r := canBeRun([]string{})
-	if r {
-		t.Error("canBeRun with empty slice must return false")
-	}
-}
-
-func TestCanBeRunWithOneElemSlice(t *testing.T) {
-	r := canBeRun([]string{"one"})
-	if !r {
-		t.Error("canBeRun with one element in slice must return false")
-	}
-}
-
-func TestCanBeRunWithTwoElemSlice(t *testing.T) {
-	r := canBeRun([]string{"one", "two"})
-	if !r {
-		t.Error("canBeRun with two elements in slice must return true")
-	}
-}
-
-func TestGetEnvFileNamesWithOneArgument(t *testing.T) {
-	args := []string{".env.example"}
-	s1, s2 := getEnvFileNames(args)
-
-	if s1 != ".env" || s2 != args[0] {
-		t.Error("getEnvFileName failed")
-	}
-}
-
-func TestGetEnvFileNamesWithTwoArguments(t *testing.T) {
-	args := []string{".env.example", ".env"}
-	s1, s2 := getEnvFileNames(args)
-
-	if s1 != args[1] || s2 != args[0] {
-		t.Error("getEnvFileName failed")
-	}
-}
-
 func TestGetMapKeysSorted(t *testing.T) {
 	k := []string{"abc", "acb", "bac", "bca", "cab", "cba"}
 
@@ -93,15 +54,6 @@ func TestGetKeysDiff(t *testing.T) {
 	}
 }
 
-func TestCallWithoutArguments(t *testing.T) {
-	_, err := EnvSync([]string{})
-	if err != nil && err.Error() == "please provide the need it arguments" {
-		return
-	}
-
-	t.Error("Calling without arguments must return 'please provide the need it arguments' error")
-}
-
 func TestCallWithOneNonExistingFilename(t *testing.T) {
 	dir, err := os.Getwd()
 	if err != nil {
@@ -115,7 +67,7 @@ func TestCallWithOneNonExistingFilename(t *testing.T) {
 
 	defer os.Remove(filename)
 
-	_, err = EnvSync([]string{"random_file_name_789"})
+	_, err = EnvSync(".env", "random_file_name_789")
 	// get just first 26 characters from error message because the rest differ linux&mac vs windows :|
 	if err != nil && err.Error()[0:26] == "open random_file_name_789:" {
 		return
@@ -137,9 +89,9 @@ func TestCallWithTwoNonExistingFilenames(t *testing.T) {
 
 	defer os.Remove(filename)
 
-	_, err = EnvSync([]string{"random_file_name_789", "789_random_file_name"})
+	_, err = EnvSync("random_file_name_789", "789_random_file_name")
 	// get just first 26 characters from error message because the rest differ linux&mac vs windows :|
-	if err != nil && err.Error()[0:26] == "open 789_random_file_name:" {
+	if err != nil && err.Error()[0:26] == "open random_file_name_789:" {
 		return
 	}
 
@@ -162,7 +114,7 @@ func TestCallWithExampleFileExistingAndEnvFileDefault(t *testing.T) {
 	defer os.Remove(filename)
 	defer os.Remove(tmpfile.Name())
 
-	_, err = EnvSync([]string{tmpfile.Name()})
+	_, err = EnvSync(filename, tmpfile.Name())
 	if err != nil {
 		t.Error("Calling with example file existing must return nil")
 	}
@@ -181,7 +133,7 @@ func TestCallWithExampleAndEnvFileSynced(t *testing.T) {
 	defer os.Remove(tmpfileEnv.Name())
 	defer os.Remove(tmpfileEnvExample.Name())
 
-	r, err := EnvSync([]string{tmpfileEnvExample.Name(), tmpfileEnv.Name()})
+	r, err := EnvSync(tmpfileEnv.Name(), tmpfileEnvExample.Name())
 	if r && err != nil {
 		t.Error("Calling with example and environment synced must return true, nil")
 	}
@@ -200,7 +152,7 @@ func TestCallWithEnvFileNotSynced(t *testing.T) {
 	defer os.Remove(tmpfileEnv.Name())
 	defer os.Remove(tmpfileEnvExample.Name())
 
-	r, err := EnvSync([]string{tmpfileEnvExample.Name(), tmpfileEnv.Name()})
+	r, err := EnvSync(tmpfileEnv.Name(), tmpfileEnvExample.Name())
 	if r || err == nil {
 		t.Error("Calling with example and environment not synced must return false, err")
 	}
@@ -220,7 +172,7 @@ func TestCallWithEnvExampleFileNotSynced(t *testing.T) {
 	defer os.Remove(tmpfileEnv.Name())
 	defer os.Remove(tmpfileEnvExample.Name())
 
-	r, err := EnvSync([]string{tmpfileEnvExample.Name(), tmpfileEnv.Name()})
+	r, err := EnvSync(tmpfileEnv.Name(), tmpfileEnvExample.Name())
 	if r || err == nil {
 		t.Error("Calling with example and environment not synced must return false, err")
 	}

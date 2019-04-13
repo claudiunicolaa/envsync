@@ -10,17 +10,10 @@ import (
 	"strings"
 )
 
-// EnvSync get from args parameter the filenames of the environment and environment example.
-// The default environment names is .env and the function needs at least one entry 
-// into args array which will represent the name of environment example file. 
-// The second entry is optional and will represent the environment file name and overrides the default .env.
-func EnvSync(args []string) (bool, error) {
-	if !canBeRun(args) {
-		return false, errors.New("please provide the need it arguments")
-	}
-
-	envFileName, envFileNameExample := getEnvFileNames(args)
-
+// EnvSync has two parameter:
+// 	- the environment filename
+//  - the environment example filename
+func EnvSync(envFileName, envFileNameExample string) (bool, error) {
 	envMap, err := godotenv.Read(envFileName)
 	if err != nil {
 		return false, errors.New(err.Error() + " for environment file (" + envFileName + ")")
@@ -58,10 +51,6 @@ func getKeysDiff(a, b []string) (diff []string) {
 	return
 }
 
-func canBeRun(args []string) bool {
-	return len(args) > 0
-}
-
 func getMapKeysSorted(m map[string]string) []string {
 	keys := make([]string, 0, len(m))
 
@@ -70,16 +59,4 @@ func getMapKeysSorted(m map[string]string) []string {
 	}
 	sort.Strings(keys)
 	return keys
-}
-
-func getEnvFileNames(args []string) (string, string) {
-	// default name of environment file
-	var envFileName = ".env"
-	envFileNameExample := args[0]
-	// if second cli argument specified
-	if len(args) > 1 {
-		envFileName = args[1]
-	}
-
-	return envFileName, envFileNameExample
 }

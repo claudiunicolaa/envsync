@@ -30,7 +30,8 @@ envsync .env.example .env
 		return
 	}
 
-	r, err := envsync.EnvSync(os.Args[1:])
+	envFileName, envExampleFileName := getEnvFileNames(os.Args[1:])
+	r, err := envsync.EnvSync(envFileName, envExampleFileName)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -40,4 +41,16 @@ envsync .env.example .env
 	} else {
 		log.Println("environment files are out-of-sync")
 	}
+}
+
+func getEnvFileNames(args []string) (string, string) {
+	// default name of environment file
+	var envFileName = ".env"
+	envFileNameExample := args[0]
+	// if second cli argument specified
+	if len(args) > 1 {
+		envFileName = args[1]
+	}
+
+	return envFileName, envFileNameExample
 }
