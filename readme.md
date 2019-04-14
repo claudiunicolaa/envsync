@@ -1,5 +1,7 @@
 # envsync
 
+![envsync-image](http://claudiunicola.xyz/envsync.png)
+
 [![GoDoc](https://godoc.org/github.com/claudiunicolaa/envsync?status.svg)](https://godoc.org/github.com/claudiunicolaa/envsync)
 [![Build Status](https://travis-ci.org/claudiunicolaa/envsync.svg?branch=master)](https://travis-ci.org/claudiunicolaa/envsync)
 [![Go Report Card](https://goreportcard.com/badge/github.com/claudiunicolaa/envsync)](https://goreportcard.com/report/github.com/claudiunicolaa/envsync)
