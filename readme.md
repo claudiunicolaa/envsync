@@ -63,6 +63,9 @@ Install as above and you can run it like as a bin command from your terminal.
 ```shell
 envsync [-h] path/to/environment/example/file [path/to/environment/file]
 
-// The go code above can be translated into 
+// The above Go code can be translated into 
 envsync .env.example .env
 ```
+
+## Something wrong?
+If you encounter some problems, please open an issue.
