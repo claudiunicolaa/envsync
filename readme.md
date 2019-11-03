@@ -1,6 +1,6 @@
 # envsync
 
-![envsync-image](http://claudiunicola.xyz/envsync.png)
+![envsync-image](http://claudiunicola.xyz/img/envsync.png)
 
 [![GoDoc](https://godoc.org/github.com/claudiunicolaa/envsync?status.svg)](https://godoc.org/github.com/claudiunicolaa/envsync)
 [![Build Status](https://travis-ci.org/claudiunicolaa/envsync.svg?branch=master)](https://travis-ci.org/claudiunicolaa/envsync)
