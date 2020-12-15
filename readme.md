@@ -48,10 +48,6 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-    
-	// ...
-	// all good, we'll supposed here is
-	// a lot of magic written in Go
 	// ...
 }
 
