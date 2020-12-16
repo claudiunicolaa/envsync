@@ -1,4 +1,5 @@
 # envsync
+[![Coverage Status](https://coveralls.io/repos/github/claudiunicolaa/envsync/badge.svg?branch=master)](https://coveralls.io/github/claudiunicolaa/envsync?branch=master)
 
 ![envsync-image](http://claudiunicola.xyz/img/envsync.png)
 
