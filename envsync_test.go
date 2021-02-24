@@ -60,7 +60,7 @@ func TestCallWithOneNonExistingFilename(t *testing.T) {
 		panic(err)
 	}
 	filename := dir + "/.env"
-	err = ioutil.WriteFile(filename, []byte{}, 0644)
+	err = ioutil.WriteFile(filename, []byte{}, 0600)
 	if err != nil {
 		panic(err)
 	}
@@ -82,7 +82,7 @@ func TestCallWithTwoNonExistingFilenames(t *testing.T) {
 		panic(err)
 	}
 	filename := dir + "/.env"
-	err = ioutil.WriteFile(filename, []byte{}, 0644)
+	err = ioutil.WriteFile(filename, []byte{}, 0600)
 	if err != nil {
 		panic(err)
 	}
@@ -104,7 +104,7 @@ func TestCallWithExampleFileExistingAndEnvFileDefault(t *testing.T) {
 		panic(err)
 	}
 	filename := dir + "/.env"
-	err = ioutil.WriteFile(filename, []byte{}, 0644)
+	err = ioutil.WriteFile(filename, []byte{}, 0600)
 	if err != nil {
 		panic(err)
 	}
