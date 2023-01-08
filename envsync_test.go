@@ -1,7 +1,6 @@
 package envsync
 
 import (
-	"io/ioutil"
 	"math/rand"
 	"os"
 	"reflect"
@@ -60,7 +59,7 @@ func TestCallWithOneNonExistingFilename(t *testing.T) {
 		panic(err)
 	}
 	filename := dir + "/.env"
-	err = ioutil.WriteFile(filename, []byte{}, 0600)
+	err = os.WriteFile(filename, []byte{}, 0600)
 	if err != nil {
 		panic(err)
 	}
@@ -82,7 +81,7 @@ func TestCallWithTwoNonExistingFilenames(t *testing.T) {
 		panic(err)
 	}
 	filename := dir + "/.env"
-	err = ioutil.WriteFile(filename, []byte{}, 0600)
+	err = os.WriteFile(filename, []byte{}, 0600)
 	if err != nil {
 		panic(err)
 	}
@@ -104,7 +103,7 @@ func TestCallWithExampleFileExistingAndEnvFileDefault(t *testing.T) {
 		panic(err)
 	}
 	filename := dir + "/.env"
-	err = ioutil.WriteFile(filename, []byte{}, 0600)
+	err = os.WriteFile(filename, []byte{}, 0600)
 	if err != nil {
 		panic(err)
 	}
@@ -179,7 +178,7 @@ func TestCallWithEnvExampleFileNotSynced(t *testing.T) {
 }
 
 func createFile(content []byte, filename string) *os.File {
-	tmpfile, err := ioutil.TempFile("", filename)
+	tmpfile, err := os.CreateTemp("", filename)
 	if err != nil {
 		panic(err)
 	}
